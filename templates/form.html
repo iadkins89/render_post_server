@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data</title>
+</head>
+<body>
+    <h1>Sensor Data</h1>
+    <div id="existing-data">
+        <h2>Latest Data</h2>
+        <ul>
+            {% for data in latest_data %}
+                <li>{{ data.id }} - RSSI: {{ data.rssi }}, SNR: {{ data.snr }}, Temperature: {{ data.temperature }}, Humidity: {{ data.humidity }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <form action="/download_csv" method="post">
+            <button type="submit">Download CSV</button>
+        </form>
+    </div>
+</body>
+</html>
+
