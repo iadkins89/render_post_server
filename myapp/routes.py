@@ -1,39 +1,15 @@
-from flask import Flask, render_template, request, jsonify, Response
+from flask import Blueprint, redirect, url_for, render_template, request, jsonify, Response
 import csv
-import psycopg2
-from urllib.parse import urlparse
-from flask_sqlalchemy import SQLAlchemy
-import os
-from sqlalchemy import desc
 from io import StringIO
+from .extensions import db
+from .models import User
 
-app = Flask(__name__)
+main = Blueprint('main', __name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL") # Replace with your database URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-class data(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    rssi = db.Column(db.Float)
-    snr = db.Column(db.Float)
-    temperature = db.Column(db.Float)
-    humidity = db.Column(db.Float)
-
-def connect_to_database():
-    try:
-        conn = psycopg2.connect(
-            dbname=DB_NAME,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            host=DB_HOST,
-            port=DB_PORT
-        )
-        return conn
-    except psycopg2.Error as e:
-        print("Unable to connect to the database")
-        print(e)
-
+def save_to_database(rssi_data, snr_data, temp_data, hum_data):
+    new_data = data(rssi=rssi_data, snr=snr_data, temperature=temp_data, humidity=hum_data)
+    db.session.add(new_data)
+    db.session.commit()
 
 @app.route('/')
 def form():
@@ -78,13 +54,3 @@ def receive_data():
         return jsonify({'message': 'Data saved to database.'}), 200
     except Exception as e:
         return jsonify({'error': f'Failed to save data to database: {str(e)}'}), 500
-
-
-def save_to_database(rssi_data, snr_data, temp_data, hum_data):
-    new_data = data(rssi=rssi_data, snr=snr_data, temperature=temp_data, humidity=hum_data)
-    db.session.add(new_data)
-    db.session.commit()
-
-
-#if __name__ == '__main__':
-    app.run()
