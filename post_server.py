@@ -86,5 +86,5 @@ def save_to_database(rssi_data, snr_data, temp_data, hum_data):
     db.session.commit()
 
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+#    app.run()
