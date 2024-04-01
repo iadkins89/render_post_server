@@ -11,13 +11,13 @@ def save_to_database(rssi_data, snr_data, temp_data, hum_data):
     db.session.add(new_data)
     db.session.commit()
 
-@app.route('/')
+@main.route('/')
 def form():
     # Query existing data from the database
     latest_data = data.query.order_by(desc(data.id)).limit(10).all()
     return render_template('form.html', latest_data=latest_data)
 
-@app.route('/download_csv', methods=['POST'])
+@main.route('/download_csv', methods=['POST'])
 def download_csv():
     # Query all data from the database
     all_data = data.query.all()
@@ -37,7 +37,7 @@ def download_csv():
         headers={'Content-Disposition': 'attachment;filename=data.csv'}
     )
 
-@app.route('/receive_data', methods=['POST'])
+@main.route('/receive_data', methods=['POST'])
 def receive_data():
 
     sensor_data = request.json
