@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, request, jsonif
 import csv
 from io import StringIO
 from .extensions import db
-from .models import User
+from .models import data
 
 main = Blueprint('main', __name__)
 
