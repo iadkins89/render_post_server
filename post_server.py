@@ -87,4 +87,4 @@ def save_to_database(rssi_data, snr_data, temp_data, hum_data):
 
 
 if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+    app.run()
