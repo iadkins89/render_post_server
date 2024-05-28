@@ -208,3 +208,4 @@ def receive_data():
         return jsonify({'message': 'Data saved to database.'}), 200
     except Exception as e:
         return jsonify({'error': f'Failed to save data to database: {str(e)}'}), 500
+"""
