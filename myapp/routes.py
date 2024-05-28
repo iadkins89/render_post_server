@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, url_for, render_template, request, jsonify, Response
+import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
@@ -12,6 +13,9 @@ from .models import TelemetryData
 from sqlalchemy import desc
 
 main = Blueprint('main', __name__)
+dashboard = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = dashboard.server
+socketio = SocketIO(main)
 
 main.layout = dbc.Container([
     dbc.Row([
@@ -152,7 +156,7 @@ def set_filename(n_clicks, filename):
     if n_clicks:
         socketio.emit('set_csv_filename', {'csv_filename': filename})
         return ''
-    return dash.no_update
+    return dashboard.no_update
 
 
 
