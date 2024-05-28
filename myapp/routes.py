@@ -8,7 +8,7 @@ from datetime import datetime
 import csv
 from io import StringIO
 from .extensions import db
-from .models import telemetry_data
+from .models import TelemetryData
 from sqlalchemy import desc
 
 main = Blueprint('main', __name__)
@@ -50,7 +50,7 @@ data_store = {
 }
 
 def save_to_database(time_data, rssi_data, snr_data, temp_data, hum_data):
-    new_data = telemetry_data(timestamp = time_data, rssi=rssi_data, snr=snr_data, temperature=temp_data, humidity=hum_data)
+    new_data = TelemetryData(timestamp = time_data, rssi=rssi_data, snr=snr_data, temperature=temp_data, humidity=hum_data)
     db.session.add(new_data)
     db.session.commit()
 
