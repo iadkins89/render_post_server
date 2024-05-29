@@ -15,7 +15,7 @@ from sqlalchemy import desc
 main = Blueprint('main', __name__)
 dashboard = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = dashboard.server
-socketio = SocketIO(main)
+#socketio = SocketIO(main)
 
 main.layout = dbc.Container([
     dbc.Row([
